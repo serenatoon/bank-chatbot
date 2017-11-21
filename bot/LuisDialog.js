@@ -3,7 +3,7 @@ var builder = require('botbuilder');
 
 exports.startDialog = function (bot) {
 
-    var recognizer = new builder.LuisRecognizer('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{YOUR_APP_ID_HERE}?subscription-key={YOUR_KEY_HERE}&timezoneOffset=0&q=');
+    var recognizer = new builder.LuisRecognizer('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/80ad0087-165f-48e3-9fbb-1e7353776359?subscription-key=14c186c54e174c3b85e6597f35bd6808&verbose=true&timezoneOffset=12.0&q=');
 
     bot.recognizer(recognizer);
 
