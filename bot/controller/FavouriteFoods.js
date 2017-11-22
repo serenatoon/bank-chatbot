@@ -29,3 +29,8 @@ function handleFavouriteFoodResponse(message, session, username) {
     session.send("%s, your favourite foods are: %s", username, allFoods);                
     
 }
+
+exports.sendFavouriteFood = function postFavouriteFood(session, username, favouriteFood){
+    var url = 'https://fooodbot.azurewebsites.net/tables/FoodBot';
+    rest.postFavouriteFood(url, username, favouriteFood);
+};

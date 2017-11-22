@@ -77,11 +77,36 @@ exports.startDialog = function (bot) {
     });
 
     bot.dialog('LookForFavourite', [
-        // Insert logic here later
+        function (session, args, next) {
+            session.dialogData.args = args || {};        
+            if (!session.conversationData["username"]) {
+                builder.Prompts.text(session, "Enter a username to setup your account.");                
+            } else {
+                next(); // Skip if we already have this info.
+            }
+        },
+        function (session, results, next) {
+            //if (!isAttachment(session)) {
+
+                if (results.response) {
+                    session.conversationData["username"] = results.response;
+                }
+                // Pulls out the food entity from the session if it exists
+                var foodEntity = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'food');
+                console.log(foodEntity);
+                // Checks if the food entity was found
+                if (foodEntity) {
+                    session.send('Thanks for telling me that \'%s\' is your favourite food', foodEntity.entity);
+                    food.sendFavouriteFood(session, session.conversationData["username"], foodEntity.entity); // <-- LINE WE WANT
+    
+                } else {
+                    session.send("No food identified!!!");
+                }
+            //}
+        }
     ]).triggerAction({
         matches: 'LookForFavourite'
-    });
-    
+    });    
 
     bot.dialog('WelcomeIntent', [
         // Insert logic here later
