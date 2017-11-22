@@ -1,5 +1,6 @@
 var builder = require('botbuilder');
 var food = require('../controller/FavouriteFoods')
+var restaurant = require('./RestaurantCard');
 
 
 exports.startDialog = function (bot) {
@@ -16,6 +17,7 @@ exports.startDialog = function (bot) {
             // Checks if the food entity was found
             if (foodEntity) {
                 session.send('Looking for restaurants which sell %s...', foodEntity.entity);
+                restaurant.displayRestaurantCards(foodEntity.entity, "auckland", session);
                 // Insert logic here later
             } else {
                 session.send("No food identified! Please try again");
