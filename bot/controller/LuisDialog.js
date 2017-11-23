@@ -1,6 +1,7 @@
 var builder = require('botbuilder');
 var food = require('../controller/FavouriteFoods')
 var restaurant = require('./RestaurantCard');
+var nutrition = require('./nutritionCard');
 
 
 exports.startDialog = function (bot) {
@@ -68,6 +69,7 @@ exports.startDialog = function (bot) {
             if (foodEntity) {
                 session.send('Calculating calories in %s...', foodEntity.entity);
                 // Insert logic here later
+                nutrition.displayNutritionCards(foodEntity.entity, session);
 
             } else {
                 session.send("No food identified! Please try again");
