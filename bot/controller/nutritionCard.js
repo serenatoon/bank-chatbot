@@ -3,7 +3,7 @@ var builder = require('botbuilder');
 
 //Calls 'getNutritionData' in RestClient.js with 'getFoodNutrition' as callback to get ndbno of food
 exports.displayNutritionCards = function getNutritionData(foodName, session){
-    var url = "https://api.nal.usda.gov/ndb/search/?format=json&q="+foodName+"&sort=r&max=1&offset=0&api_key=tZyOKm2kvj2EjxXxsv5jCb6ZUfjlYaWEFZ22t4Bu";
+    var url = "https://api.nal.usda.gov/ndb/search/?format=json&q="+foodName+"&sort=r&max=1&offset=0&api_key=e1GAvBPw6asFJwwgMSGEeqkR0Gr3fWwq59rVpDXb";
 
     rest.getNutritionData(url, session,foodName, getFoodNutrition);
 }
@@ -12,7 +12,7 @@ exports.displayNutritionCards = function getNutritionData(foodName, session){
 function getFoodNutrition(message, foodName, session){
     var foodNutritionList = JSON.parse(message);
     var ndbno = foodNutritionList.list.item[0].ndbno;
-    var url = "https://api.nal.usda.gov/ndb/reports/?ndbno="+ndbno+"&type=f&format=json&api_key=tZyOKm2kvj2EjxXxsv5jCb6ZUfjlYaWEFZ22t4Bu";
+    var url = "https://api.nal.usda.gov/ndb/reports/?ndbno="+ndbno+"&type=f&format=json&api_key=e1GAvBPw6asFJwwgMSGEeqkR0Gr3fWwq59rVpDXb";
     
     rest.getNutritionData(url, session, foodName, displayNutritionCards);
 
