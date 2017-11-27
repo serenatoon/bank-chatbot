@@ -6,7 +6,7 @@ var cognitive = require('../controller/CustomVision');
 
 exports.startDialog = function (bot) {
 
-    var recognizer = new builder.LuisRecognizer('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/80ad0087-165f-48e3-9fbb-1e7353776359?subscription-key=14c186c54e174c3b85e6597f35bd6808&verbose=true&timezoneOffset=12.0&q=');
+    var recognizer = new builder.LuisRecognizer('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/70c6e964-d652-43c9-8ef5-8075b39d4d4a?subscription-key=14c186c54e174c3b85e6597f35bd6808&verbose=true&timezoneOffset=720&q=');
 
     bot.recognizer(recognizer);
 
@@ -137,10 +137,10 @@ exports.startDialog = function (bot) {
         matches: 'LookForFavourite'
     });    
 
-    bot.dialog('WelcomeIntent', [
-        // Insert logic here later
-    ]).triggerAction({
-        matches: 'WelcomeIntent'
+    bot.dialog('welcomeIntent', function (session, args) {
+        session.send("Welcome!");
+    }).triggerAction({
+        matches: 'welcomeIntent'
     });
 }
 
