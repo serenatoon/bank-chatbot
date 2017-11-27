@@ -138,7 +138,9 @@ exports.startDialog = function (bot) {
     });    
 
     bot.dialog('welcomeIntent', function (session, args) {
-        session.send("Welcome!");
+        if (!isAttachment(session)) {
+            session.send("Welcome!");
+        }
     }).triggerAction({
         matches: 'welcomeIntent'
     });
