@@ -1,16 +1,17 @@
 {
-  "name": "contoso",
+  "name": "bot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "dependencies": {
+    "botbuilder": "^3.12.0",
+    "restify": "^6.3.2"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "botbuilder": "^3.12.0",
-    "restify": "^6.3.4"
-  }
+  "license": "ISC"
 }
