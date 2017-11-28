@@ -1,6 +1,7 @@
 var builder = require('botbuilder');
 var food = require('../controller/FavouriteFoods');
 var bal = require('../controller/Balances');
+var transact = require('../controller/Transactions');
 var restaurant = require('./RestaurantCard');
 var nutrition = require('./nutritionCard');
 var cognitive = require('../controller/CustomVision');
@@ -104,6 +105,30 @@ exports.startDialog = function (bot) {
         }
     ]).triggerAction({
         matches: 'getBalance'
+    });
+
+    bot.dialog('getTransactions', [
+    function (session, args, next) {
+        session.dialogData.args = args || {};        
+        if (!session.conversationData["username"]) {
+            builder.Prompts.text(session, "Enter a username to setup your account.");                
+        } else {
+            next(); // Skip if we already have this info.
+        }
+    },
+    function (session, results, next) {
+        if (!isAttachment(session)) {
+
+            if (results.response) {
+                session.conversationData["username"] = results.response;
+            }
+
+            session.send("Retrieving your recent transactions...");
+            transact.displayTransactions(session, session.conversationData["username"]);  // <---- THIS LINE HERE IS WHAT WE NEED 
+        }
+    }
+    ]).triggerAction({
+        matches: 'getTransactions'
     });
 
     bot.dialog('createAccount', [
