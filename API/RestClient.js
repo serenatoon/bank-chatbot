@@ -83,6 +83,59 @@ exports.deleteAccount = function deleteData(url,session, username ,account_name,
 
 };
 
+exports.getTransaction = function getTransaction(url, username, from_account, to_account, amount, operation, session) {
+    request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
+        if(err){
+            console.log(err);
+        }
+        else {
+            getID(body, url, username, from_account, to_account, amount, operation, session);
+        }
+    });
+}
+
+
+function getID(body, url, username, from_account, to_account, amount, operation, session) {
+    var response = JSON.parse(body);
+    if (operation == "withdraw" || operation == "transfer") {
+        for (var i in response) {
+            if (response[i].username.toLowerCase() == username.toLowerCase() && (response[i].account.toLowerCase() == from_account.toLowerCase())) {
+                var id = response[i].id;
+                console.log(id);
+                var new_balance = Number(response[i].balance) - Number(amount);
+                updateBalance(url, username, from_account, session, id, new_balance);
+                break;
+            }
+        }  
+    }
+}
+
+function updateBalance(url, username, account_name, session, id, new_balance) {
+    console.log(url+'/'+id);
+    var options = {
+        url: url+'/'+id,
+        method: 'PATCH',
+        headers: {
+            'ZUMO-API-VERSION': '2.0.0',
+            'Content-Type':'application/json'
+        },
+        json: {
+            "balance": new_balance
+        }
+      };
+      
+      request(options, function (error, response, body) {
+        if (!error) {
+            console.log(body);
+            session.send("Your balance is now $%s", new_balance);
+        }
+        else{
+            console.log(error);
+        }
+      });
+}
+
+
 exports.getYelpData = function getData(url,bearer,session, callback){
 
     request.get(url,{'auth': { 'bearer': bearer}} ,function(err,res,body){

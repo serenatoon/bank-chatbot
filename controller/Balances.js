@@ -19,6 +19,11 @@ function handleBalancesResponse(message, session, username) {
     }            
 }
 
+exports.sendTransaction = function postTransactions(session, username, from_account, to_account, amount, operation) {
+    var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
+    rest.getTransaction(url, username, from_account, to_account, amount, operation, session);
+}
+
 exports.sendAccount = function postBalances(session, username, account_name){
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
     rest.getNewAccountNumber(url, username, account_name, session);

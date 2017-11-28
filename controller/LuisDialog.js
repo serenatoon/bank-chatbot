@@ -147,10 +147,9 @@ exports.startDialog = function (bot) {
                     session.conversationData["username"] = results.response;
                 }
                 // Pulls out the food entity from the session if it exists
-                var account_entity = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'account_name');
-                console.log(account_entity);
+                var account = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'account_name');
                 // Checks if the food entity was found
-                if (account_entity) {
+                if (account) {
                     session.send('Creating new \'%s\' account...', account_entity.entity);
                     bal.sendAccount(session, session.conversationData["username"], account_entity.entity); // <-- LINE WE WANT
     
@@ -162,6 +161,42 @@ exports.startDialog = function (bot) {
     ]).triggerAction({
         matches: 'createAccount'
     });    
+
+    bot.dialog('withdrawMoney', [
+    function (session, args, next) {
+        session.dialogData.args = args || {};        
+        if (!session.conversationData["username"]) {
+            builder.Prompts.text(session, "Enter a username to setup your account.");                
+        } else {
+            next(); // Skip if we already have this info.
+        }
+    },
+    function (session, results, next) {
+        if (!isAttachment(session)) {
+
+            if (results.response) {
+                session.conversationData["username"] = results.response;
+            }
+
+            var amount = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'amount');
+            var account = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'from_account');
+
+            console.log("amount: %s", amount);
+            console.log("account: %s", account);
+
+            // Checks if the food entity was found
+            if (account) {
+                session.send('Withdrawing %s from %s....', amount.entity, account.entity);
+                bal.sendTransaction(session, session.conversationData["username"], account.entity, null, Number(amount.entity), "withdraw"); // <-- LINE WE WANT
+
+            } else {
+                session.send("No account name identified!!!");
+            }
+        }
+    }
+    ]).triggerAction({
+        matches: 'withdrawMoney'
+    }); 
 
     bot.dialog('welcomeIntent', function (session, args) {
         if (!isAttachment(session)) {
