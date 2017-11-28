@@ -21,7 +21,7 @@ function handleBalancesResponse(message, session, username) {
 
 exports.sendAccount = function postBalances(session, username, account_name){
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
-    rest.getNewAccountNumber(url, username, account_name);
+    rest.getNewAccountNumber(url, username, account_name, session);
 };
 
 exports.deleteAccount = function deleteAccount(session,username,account){
@@ -37,6 +37,7 @@ exports.deleteAccount = function deleteAccount(session,username,account){
                 if (Number(response[i].balance) == 0) {
                     console.log(response[i]);
                     rest.deleteAccount(url,session,username,account, response[i].id ,handleDeletedFoodResponse)
+                    session.send("%s account deleted!", account);
                 }
                 else {
                     session.send("Can only delete empty accounts!");

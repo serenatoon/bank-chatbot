@@ -11,7 +11,7 @@ exports.getBalances = function getData(url, session, username, callback){
     });
 };
 
-function postAccount(url, username, account_name, account_number){
+function postAccount(url, username, account_name, account_number, session){
     var options = {
         url: url,
         method: 'POST',
@@ -28,8 +28,9 @@ function postAccount(url, username, account_name, account_number){
       };
       
       request(options, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
+        if (!error) {
             console.log(body);
+            session.send("Your new %s account has been created! Account number: %s", account_name, account_number);
         }
         else{
             console.log(error);
@@ -37,27 +38,27 @@ function postAccount(url, username, account_name, account_number){
       });
 };
 
-exports.getNewAccountNumber = function getNewAccountNumber(url, username, account_name) {
+exports.getNewAccountNumber = function getNewAccountNumber(url, username, account_name, session) {
     request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
         if(err){
             console.log(err);
         }
         else {
-            calculateNewAccountNumber(body, url, username, account_name);
+            calculateNewAccountNumber(body, url, username, account_name, session);
         }
     });
 }
 
-function calculateNewAccountNumber(body, url, username, account_name) {
+function calculateNewAccountNumber(body, url, username, account_name, session) {
     var max = 1;
     var response = JSON.parse(body);
     for (var i in response) {
-        if (Number(response[i].number) > Number(max)) {
+        if (Number(response[i].number) >= Number(max)) {
             max = Number(response[i].number) + 1;
         }
     }
     console.log("max: %s", max);
-    postAccount(url, username, account_name, max);
+    postAccount(url, username, account_name, max, session);
 }
 
 exports.deleteAccount = function deleteData(url,session, username ,account_name, id, callback){
