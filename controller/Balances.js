@@ -19,14 +19,14 @@ function handleBalancesResponse(message, session, username) {
     }            
 }
 
-exports.sendAccount = function postBalances(session, username, account_name, callback){
+exports.sendAccount = function postBalances(session, username, account_name){
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
-    console.log("callback: %s", callback);
-    rest.fetchData(url, username, account_name, session, callback);
+    rest.getNewAccountNumber(url, username, account_name, session);
 };
 
 exports.deleteAccount = function deleteAccount(session,username,account){
     var url  = 'http://contosobankltd.azurewebsites.net/tables/balances';
+
 
     rest.getBalances(url,session, username,function(message,session,username){
     var response = JSON.parse(message);
@@ -52,8 +52,3 @@ exports.deleteAccount = function deleteAccount(session,username,account){
 function handleDeletedFoodResponse(message, session, username, account) {
 	
 }
-
-exports.updateAccount = function postBalances(session, username, account_name){
-    var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
-    rest.getID(url, username, account_name, session);
-};

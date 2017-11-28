@@ -5,7 +5,6 @@ var transact = require('../controller/Transactions');
 var restaurant = require('./RestaurantCard');
 var nutrition = require('./nutritionCard');
 var cognitive = require('../controller/CustomVision');
-var rest = require('../API/RestClient');
 
 exports.startDialog = function (bot) {
 
@@ -153,7 +152,7 @@ exports.startDialog = function (bot) {
                 // Checks if the food entity was found
                 if (account_entity) {
                     session.send('Creating new \'%s\' account...', account_entity.entity);
-                    bal.sendAccount(session, session.conversationData["username"], account_entity.entity, rest.calculateNewAccountNumber); // <-- LINE WE WANT
+                    bal.sendAccount(session, session.conversationData["username"], account_entity.entity); // <-- LINE WE WANT
     
                 } else {
                     session.send("No account name identified!!!");

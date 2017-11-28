@@ -38,18 +38,18 @@ function postAccount(url, username, account_name, account_number, session){
       });
 };
 
-exports.fetchData = function fetchData(url, username, account_name, session, callback) {
+exports.getNewAccountNumber = function getNewAccountNumber(url, username, account_name, session) {
     request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
         if(err){
             console.log(err);
         }
         else {
-            callback(body, url, username, account_name, session);
+            calculateNewAccountNumber(body, url, username, account_name, session);
         }
     });
 }
 
-exports.calculateNewAccountNumber = function calculateNewAccountNumber(body, url, username, account_name, session) {
+function calculateNewAccountNumber(body, url, username, account_name, session) {
     var max = 1;
     var response = JSON.parse(body);
     for (var i in response) {
