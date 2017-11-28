@@ -3,7 +3,7 @@ var food = require('../controller/FavouriteFoods');
 var bal = require('../controller/Balances');
 var transact = require('../controller/Transactions');
 var restaurant = require('./RestaurantCard');
-var nutrition = require('./nutritionCard');
+var stocks = require('./StockCard');
 var cognitive = require('../controller/CustomVision');
 
 exports.startDialog = function (bot) {
@@ -63,24 +63,24 @@ exports.startDialog = function (bot) {
         matches: 'deleteAccount'
     });
 
-    bot.dialog('GetCalories', function (session, args) {
+    bot.dialog('getStocks', function (session, args) {
         if (!isAttachment(session)) {
 
             // Pulls out the food entity from the session if it exists
-            var foodEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'food');
+            var stock_symbol = builder.EntityRecognizer.findEntity(args.intent.entities, 'stock');
 
             // Checks if the for entity was found
-            if (foodEntity) {
-                session.send('Calculating calories in %s...', foodEntity.entity);
+            if (stock_symbol) {
+                session.send('Fetching stock price of %s...', stock_symbol.entity.toUpperCase());
                 // Insert logic here later
-                nutrition.displayNutritionCards(foodEntity.entity, session);
+                stocks.displayStockCards(stock_symbol.entity, session);
 
             } else {
                 session.send("No food identified! Please try again");
             }
         }
     }).triggerAction({
-        matches: 'GetCalories'
+        matches: 'getStocks'
     });
 
     bot.dialog('getBalance', [

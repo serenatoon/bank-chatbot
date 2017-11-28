@@ -159,13 +159,13 @@ exports.getYelpData = function getData(url,bearer,session, callback){
     });
 };
 
-exports.getNutritionData = function getData(url, session, foodName, callback){
+exports.getStockData = function getData(url, session, symbol, callback){
 
     request.get(url, function(err,res,body){
         if(err){
             console.log(err);
         }else {
-            callback(body, foodName, session);
+            callback(body, symbol, session);
         }
     });
 };
