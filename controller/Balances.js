@@ -29,16 +29,18 @@ exports.deleteAccount = function deleteAccount(session,username,account){
 
 
     rest.getBalances(url,session, username,function(message,session,username){
-     var all_accounts = JSON.parse(message);
+    var response = JSON.parse(message);
 
-        for(var i in all_accounts) {
-
-            if (all_accounts[i].account === account && all_accounts[i].username === username) {
-
-                console.log(all_accounts[i]);
-
-                rest.deleteAccount(url,session,username,account, all_accounts[i].id ,handleDeletedFoodResponse)
-
+        for(var i in response) {
+            if (response[i].account.toLowerCase() === account.toLowerCase() && response[i].username.toLowerCase() === username.toLowerCase()) {
+                console.log("balance: %s", response[i].balance);
+                if (Number(response[i].balance) == 0) {
+                    console.log(response[i]);
+                    rest.deleteAccount(url,session,username,account, response[i].id ,handleDeletedFoodResponse)
+                }
+                else {
+                    session.send("Can only delete empty accounts!");
+                }
             }
         }
 
