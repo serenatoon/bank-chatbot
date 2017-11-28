@@ -198,6 +198,44 @@ exports.startDialog = function (bot) {
         matches: 'withdrawMoney'
     }); 
 
+    bot.dialog('transferMoney', [
+    function (session, args, next) {
+        session.dialogData.args = args || {};        
+        if (!session.conversationData["username"]) {
+            builder.Prompts.text(session, "Enter a username to setup your account.");                
+        } else {
+            next(); // Skip if we already have this info.
+        }
+    },
+    function (session, results, next) {
+        if (!isAttachment(session)) {
+
+            if (results.response) {
+                session.conversationData["username"] = results.response;
+            }
+
+            var amount = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'amount');
+            var from_account = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'from_account');
+            var to_account = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'to_account');
+
+            console.log("amount: %s", amount);
+            console.log("from_account: %s", from_account);
+            console.log("to_account: %s", to_account);
+
+            // Checks if the food entity was found
+            if (from_account) {
+                session.send('Transferring $%s from %s to %s...', amount.entity, from_account.entity, to_account.entity);
+                bal.sendTransaction(session, session.conversationData["username"], from_account.entity, to_account.entity, Number(amount.entity), "transfer"); // <-- LINE WE WANT
+
+            } else {
+                session.send("No account name identified!!!");
+            }
+        }
+    }
+    ]).triggerAction({
+        matches: 'transferMoney'
+    });
+
     bot.dialog('welcomeIntent', function (session, args) {
         if (!isAttachment(session)) {
             session.send("Welcome!");

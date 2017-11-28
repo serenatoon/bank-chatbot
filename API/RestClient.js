@@ -108,6 +108,18 @@ function getID(body, url, username, from_account, to_account, amount, operation,
             }
         }  
     }
+
+    if (operation == "deposit" || operation == "transfer") {
+        for (var i in response) {
+            if (response[i].username.toLowerCase() == username.toLowerCase() && (response[i].account.toLowerCase() == to_account.toLowerCase())) {
+                var id = response[i].id;
+                console.log(id);
+                var new_balance = Number(response[i].balance) + Number(amount);
+                updateBalance(url, username, to_account, session, id, new_balance);
+                break;
+            }
+        }  
+    }
 }
 
 function updateBalance(url, username, account_name, session, id, new_balance) {
