@@ -1,5 +1,6 @@
 var builder = require('botbuilder');
-var food = require('../controller/FavouriteFoods')
+var food = require('../controller/FavouriteFoods');
+var bal = require('../controller/Balances');
 var restaurant = require('./RestaurantCard');
 var nutrition = require('./nutritionCard');
 var cognitive = require('../controller/CustomVision');
@@ -81,7 +82,7 @@ exports.startDialog = function (bot) {
         matches: 'GetCalories'
     });
 
-    bot.dialog('GetFavouriteFood', [
+    bot.dialog('getBalance', [
         function (session, args, next) {
             session.dialogData.args = args || {};        
             if (!session.conversationData["username"]) {
@@ -97,12 +98,12 @@ exports.startDialog = function (bot) {
                     session.conversationData["username"] = results.response;
                 }
 
-                session.send("Retrieving your favourite foods");
-                food.displayFavouriteFood(session, session.conversationData["username"]);  // <---- THIS LINE HERE IS WHAT WE NEED 
+                session.send("Retrieving your balances");
+                bal.displayBalances(session, session.conversationData["username"]);  // <---- THIS LINE HERE IS WHAT WE NEED 
             }
         }
     ]).triggerAction({
-        matches: 'GetFavouriteFood'
+        matches: 'getBalance'
     });
 
     bot.dialog('LookForFavourite', [
