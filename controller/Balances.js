@@ -24,20 +24,20 @@ exports.sendAccount = function postBalances(session, username, account_name){
     rest.getNewAccountNumber(url, username, account_name);
 };
 
-exports.deleteBalances = function deleteBalances(session,username,Balances){
+exports.deleteAccount = function deleteAccount(session,username,account){
     var url  = 'http://contosobankltd.azurewebsites.net/tables/balances';
 
 
     rest.getBalances(url,session, username,function(message,session,username){
-     var   all_balances = JSON.parse(message);
+     var all_accounts = JSON.parse(message);
 
-        for(var i in all_balances) {
+        for(var i in all_accounts) {
 
-            if (all_balances[i].Balances === Balances && all_balances[i].username === username) {
+            if (all_accounts[i].account === account && all_accounts[i].username === username) {
 
-                console.log(all_balances[i]);
+                console.log(all_accounts[i]);
 
-                rest.deleteBalances(url,session,username,Balances, all_balances[i].id ,handleDeletedFoodResponse)
+                rest.deleteAccount(url,session,username,account, all_accounts[i].id ,handleDeletedFoodResponse)
 
             }
         }
@@ -46,6 +46,6 @@ exports.deleteBalances = function deleteBalances(session,username,Balances){
     });
 };
 
-function handleDeletedFoodResponse(message, session, username, Balances) {
+function handleDeletedFoodResponse(message, session, username, account) {
 	
 }

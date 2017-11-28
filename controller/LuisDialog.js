@@ -31,7 +31,7 @@ exports.startDialog = function (bot) {
         matches: 'WantFood'
     });
 
-    bot.dialog('DeleteFavourite', [
+    bot.dialog('deleteAccount', [
         function (session, args, next) {
             if (!isAttachment(session)) {
                 session.dialogData.args = args || {};
@@ -45,22 +45,22 @@ exports.startDialog = function (bot) {
         function (session, results,next) {
         if (!isAttachment(session)) {
 
-            session.send("You want to delete one of your favourite foods.");
+            session.send("You want to delete one of your accounts..");
 
             // Pulls out the food entity from the session if it exists
-            var foodEntity = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'food');
+            var account_name = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'account_name');
 
             // Checks if the for entity was found
-            if (foodEntity) {
-                session.send('Deleting \'%s\'...', foodEntity.entity);
-                food.deleteFavouriteFood(session,session.conversationData['username'],foodEntity.entity); //<--- CALLL WE WANT
+            if (account_name) {
+                session.send('Deleting \'%s\'...', account_name.entity);
+                bal.deleteAccount(session,session.conversationData['username'],account_name.entity); //<--- CALLL WE WANT
             } else {
-                session.send("No food identified! Please try again");
+                session.send("No account name identified! Please try again");
             }
         }
             }
     ]).triggerAction({
-        matches: 'DeleteFavourite'
+        matches: 'deleteAccount'
     });
 
     bot.dialog('GetCalories', function (session, args) {
