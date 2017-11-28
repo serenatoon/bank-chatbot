@@ -139,7 +139,7 @@ function updateBalance(url, username, account_name, session, id, new_balance) {
       request(options, function (error, response, body) {
         if (!error) {
             console.log(body);
-            session.send("Your balance is now $%s", new_balance);
+            session.send("Your %s account balance is now $%s", account_name, new_balance);
         }
         else{
             console.log(error);
