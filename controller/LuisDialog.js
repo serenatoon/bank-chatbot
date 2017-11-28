@@ -106,7 +106,7 @@ exports.startDialog = function (bot) {
         matches: 'getBalance'
     });
 
-    bot.dialog('LookForFavourite', [
+    bot.dialog('createAccount', [
         function (session, args, next) {
             session.dialogData.args = args || {};        
             if (!session.conversationData["username"]) {
@@ -122,20 +122,20 @@ exports.startDialog = function (bot) {
                     session.conversationData["username"] = results.response;
                 }
                 // Pulls out the food entity from the session if it exists
-                var foodEntity = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'food');
-                console.log(foodEntity);
+                var account_entity = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'account_name');
+                console.log(account_entity);
                 // Checks if the food entity was found
-                if (foodEntity) {
-                    session.send('Thanks for telling me that \'%s\' is your favourite food', foodEntity.entity);
-                    food.sendFavouriteFood(session, session.conversationData["username"], foodEntity.entity); // <-- LINE WE WANT
+                if (account_entity) {
+                    session.send('Creating new \'%s\' account...', account_entity.entity);
+                    bal.displayBalances(session, session.conversationData["username"], account_entity.entity); // <-- LINE WE WANT
     
                 } else {
-                    session.send("No food identified!!!");
+                    session.send("No account name identified!!!");
                 }
             }
         }
     ]).triggerAction({
-        matches: 'LookForFavourite'
+        matches: 'createAccount'
     });    
 
     bot.dialog('welcomeIntent', function (session, args) {

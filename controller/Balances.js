@@ -9,7 +9,6 @@ function handleBalancesResponse(message, session, username) {
     var balances_response = JSON.parse(message);
     session.send("%s, your balances are:", username);
     for (var index in balances_response) {
-        //var username_entry = balances_response[index].username;
         //Convert to lower case whilst doing comparison to ensure the user can type whatever they like
         if (username.toLowerCase() === balances_response[index].username.toLowerCase()) { // if username matches 
             var balance = balances_response[index].balance;
@@ -17,20 +16,16 @@ function handleBalancesResponse(message, session, username) {
 
             session.send("%s: $%s", account, balance);
         }        
-    }
-    
-    // Print all favourite foods for the user that is currently logged in
-    //session.send("%s, your balances are: %s", username, all_balances);                
-    
+    }            
 }
 
-exports.sendBalances = function postBalances(session, username, Balances){
-    var url = 'https://fooodbot.azurewebsites.net/tables/FoodBot';
-    rest.postBalances(url, username, Balances);
+exports.sendAccount = function postBalances(session, username, account_name){
+    var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
+    rest.postAccount(url, username, account_name, account_number);
 };
 
 exports.deleteBalances = function deleteBalances(session,username,Balances){
-    var url  = 'https://fooodbot.azurewebsites.net/tables/FoodBot';
+    var url  = 'http://contosobankltd.azurewebsites.net/tables/balances';
 
 
     rest.getBalances(url,session, username,function(message,session,username){
