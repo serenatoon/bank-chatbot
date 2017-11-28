@@ -150,8 +150,8 @@ exports.startDialog = function (bot) {
                 var account = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'account_name');
                 // Checks if the food entity was found
                 if (account) {
-                    session.send('Creating new \'%s\' account...', account_entity.entity);
-                    bal.sendAccount(session, session.conversationData["username"], account_entity.entity); // <-- LINE WE WANT
+                    session.send('Creating new \'%s\' account...', account.entity);
+                    bal.sendAccount(session, session.conversationData["username"], account.entity); // <-- LINE WE WANT
     
                 } else {
                     session.send("No account name identified!!!");
