@@ -11,9 +11,7 @@ exports.getBalances = function getData(url, session, username, callback){
     });
 };
 
-exports.postAccount = function getData(url, username, account_name){
-    var account_number = getNewAccountNumber(url);
-    console.log("account_number: %s", account_number);
+function postAccount(url, username, account_name, account_number){
     var options = {
         url: url,
         method: 'POST',
@@ -25,7 +23,7 @@ exports.postAccount = function getData(url, username, account_name){
             "username" : username,
             "account" : account_name,
             "balance" : 0,
-            "number" : account_number
+            "number" : Number(account_number)
         }
       };
       
@@ -39,18 +37,18 @@ exports.postAccount = function getData(url, username, account_name){
       });
 };
 
-function getNewAccountNumber(url) {
+exports.getNewAccountNumber = function getNewAccountNumber(url, username, account_name) {
     request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
         if(err){
             console.log(err);
         }
         else {
-            calculateNewAccountNumber(body);
+            calculateNewAccountNumber(body, url, username, account_name);
         }
     });
 }
 
-function calculateNewAccountNumber(body) {
+function calculateNewAccountNumber(body, url, username, account_name) {
     var max = 1;
     var response = JSON.parse(body);
     for (var i in response) {
@@ -59,7 +57,7 @@ function calculateNewAccountNumber(body) {
         }
     }
     console.log("max: %s", max);
-    return max;
+    postAccount(url, username, account_name, max);
 }
 
 exports.deleteFavouriteFood = function deleteData(url,session, username ,favouriteFood, id, callback){

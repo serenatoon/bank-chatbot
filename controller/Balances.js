@@ -21,7 +21,7 @@ function handleBalancesResponse(message, session, username) {
 
 exports.sendAccount = function postBalances(session, username, account_name){
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
-    rest.postAccount(url, username, account_name, account_number);
+    rest.getNewAccountNumber(url, username, account_name);
 };
 
 exports.deleteBalances = function deleteBalances(session,username,Balances){
