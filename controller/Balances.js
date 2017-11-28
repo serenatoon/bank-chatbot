@@ -7,25 +7,20 @@ exports.displayBalances = function getBalances(session, username){
 
 function handleBalancesResponse(message, session, username) {
     var balances_response = JSON.parse(message);
-    var all_balances = [];
+    session.send("%s, your balances are:", username);
     for (var index in balances_response) {
-        var usernameReceived = balances_response[index].username;
-        var Balances = balances_response[index].balance;
-
+        //var username_entry = balances_response[index].username;
         //Convert to lower case whilst doing comparison to ensure the user can type whatever they like
-        if (username.toLowerCase() === usernameReceived.toLowerCase()) {
-            //Add a comma after all favourite foods unless last one
-            if(balances_response.length - 1) {
-                all_balances.push(Balances);
-            }
-            else {
-                all_balances.push(Balances + ', ');
-            }
+        if (username.toLowerCase() === balances_response[index].username.toLowerCase()) { // if username matches 
+            var balance = balances_response[index].balance;
+            var account = balances_response[index].account;
+
+            session.send("%s: $%s", account, balance);
         }        
     }
     
     // Print all favourite foods for the user that is currently logged in
-    session.send("%s, your balances are: %s", username, all_balances);                
+    //session.send("%s, your balances are: %s", username, all_balances);                
     
 }
 
