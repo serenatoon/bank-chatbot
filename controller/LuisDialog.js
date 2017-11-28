@@ -162,7 +162,40 @@ exports.startDialog = function (bot) {
         }
     ]).triggerAction({
         matches: 'createAccount'
-    });    
+    });
+
+    bot.dialog('withdrawMoney', [
+    function (session, args, next) {
+        session.dialogData.args = args || {};        
+        if (!session.conversationData["username"]) {
+            builder.Prompts.text(session, "Enter a username to setup your account.");                
+        } else {
+            next(); // Skip if we already have this info.
+        }
+    },
+    function (session, results, next) {
+        if (!isAttachment(session)) {
+
+            if (results.response) {
+                session.conversationData["username"] = results.response;
+            }
+            // Pulls out the food entity from the session if it exists
+            var account_entity = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'account_name');
+            var amount_entity = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'amount');
+            console.log(account_entity);
+            // Checks if the food entity was found
+            if (account_entity) {
+                session.send('Withdrawing %s from %s....', amount_entity, account_entity);
+                bal.sendTransaction(session, session.conversationData["username"], account_entity.entity, rest.calculateNewAccountNumber); // <-- LINE WE WANT
+
+            } else {
+                session.send("No account name identified!!!");
+            }
+        }
+    }
+    ]).triggerAction({
+        matches: 'withdrawMoney'
+    }); 
 
     bot.dialog('welcomeIntent', function (session, args) {
         if (!isAttachment(session)) {

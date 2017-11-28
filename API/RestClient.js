@@ -61,6 +61,46 @@ exports.calculateNewAccountNumber = function calculateNewAccountNumber(body, url
     postAccount(url, username, account_name, max, session);
 }
 
+exports.getID = function getID(body, url, username, account_name, session) {
+    var response = JSON.parse(body);
+    for (var i in response) {
+        if (response[i].username.toLowerCase() == username.toLowerCase() && (response[i].account.toLowerCase() == account_name).toLowerCase()) {
+            var id = response[i].id;
+            var current_bal = response[i].balance;
+            calculateteNewBalance(url, username, account_name, session, id, current_bal);
+            break;
+        }
+    }
+}
+
+function updateBalance(url, username, account_name, session, id, current_bal) {
+    if (operation == "withdraw") {
+
+    }
+    console.log(url+id);
+    var options = {
+        url: url+id,
+        method: 'PATCH',
+        headers: {
+            'ZUMO-API-VERSION': '2.0.0',
+            'Content-Type':'application/json'
+        },
+        json: {
+            balance:
+        }
+      };
+      
+      request(options, function (error, response, body) {
+        if (!error) {
+            console.log(body);
+            session.send("Your new %s account has been created! Account number: %s", account_name, account_number);
+        }
+        else{
+            console.log(error);
+        }
+      });
+}
+
 exports.deleteAccount = function deleteData(url,session, username ,account_name, id, callback){
     var options = {
         url: url + "\\" + id,
