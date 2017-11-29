@@ -1,0 +1,313 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-family:'open sans', sans-serif !important;
+  font-weight: 400;
+  background-size: cover;
+  background-repeat: none;
+  font-size:12px !important;
+  color: #666;
+  letter-spacing:1px;
+}
+a {text-decoration:none;
+color:#555;
+-webkit-transition:all 0.4s ease-in-out;
+-moz-transition:all 0.4s ease-in-out;
+-o-transition:all 0.4s ease-in-out;
+transition:all 0.4s ease-in-out;
+font-size: 10px;}
+
+a:hover {color:#eee;}
+
+h1 {
+  max-width: 600;
+  padding-top: 45px !important;
+  text-align: center;
+  font-weight: 500 !important;
+  font-family: 'roboto', sans-serif !important;
+  letter-spacing: 8px;
+  font-size:4vw !important; /*make font size of header responsive to window width */
+  color: #888;
+}
+
+#logo {
+    position: absolute;
+    left: 25px;
+    width: 10%;
+    min-width: 100px;
+    max-width: 500px;
+}
+
+#left-content {
+    width: 100%;
+    height: 100%;
+    /*float: left;*/
+}
+
+#right-content {
+    width: 50%;
+    height: 100%;
+    float: right;
+}
+
+#right-content img {
+    width: 100%;
+    max-width: 500px;
+}
+
+#content {
+    width: 75%;
+    height: 750px;
+    margin: 0 auto;
+}
+
+#chat {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 300px;
+    height: 400px;
+}
+
+#chat-button {
+    width: 100px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+#chat-frame {
+    height: 400px;
+    width: 300px;
+}
+
+#chat-frame img {
+    width: 30px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+.hide {
+    display: none;
+}
+
+@keyframes slideFromLeft {
+  0% {
+    margin-left: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-left: 0;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes slideFromLeft {
+  0% {
+    margin-left: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-left: 0;
+    opacity: 1;
+  }
+}
+@keyframes slideFromRight {
+  0% {
+    margin-right: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-right: 0;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes slideFromRight {
+  0% {
+    margin-right: -200px;
+    opacity: 0;
+  }
+  100% {
+    margin-right: 0;
+    opacity: 1;
+  }
+}
+::-webkit-scrollbar {
+    min-width: 12px;
+    width: 12px;
+    max-width: 12px;
+    min-height: 12px;
+    height: 12px;
+    max-height: 12px;
+    background: #e5e5e5;
+    /*box-shadow: inset 0px 50px 0px rgba(82,179,217,0.9), inset 0px -52px 0px #fafafa;*/
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border: none;
+    border-radius: 100px;
+    border: solid 3px #e5e5e5;
+    box-shadow: inset 0px 0px 3px #999;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b0b0b0;
+  box-shadow: inset 0px 0px 3px #888;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #aaa;
+  box-shadow: inset 0px 0px 3px #7f7f7f;
+}
+
+::-webkit-scrollbar-button {
+    display: block;
+    height: 2px;
+}
+::-webkit-scrollbar-button:vertical:increment {
+    height:40px;
+}
+
+/*apply these styles for a device with a screen and max width of 960px*/
+@media only screen and (max-width: 960px) {
+    body {
+        text-align: center;
+    }
+
+    #heading {
+        text-align: center;
+        font-size: 50px;
+    }
+
+    #logo {
+        position: relative;
+        left: auto;
+        min-width: 100px;
+        max-width: 500px;
+    }
+
+    #left-content {
+        width: 100%;
+        height: auto;
+    }
+
+    #right-content {
+        width: 100%;
+        height: auto;
+    }
+
+    #right-content img {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    #content {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/*  make chatbot button bounce 
+    adpated from: https://www.hongkiat.com/blog/css3-bounce-effect/ */
+.css3-bounce {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 300px;
+    height: 4px;
+    
+    -webkit-animation: bounce 1.2s infinite;
+    -moz-animation: bounce 800ms infinite;
+    -o-animation: bounce 800ms infinite;
+    animation: bounce 1.2s infinite;
+}
+
+/* Webkit, Chrome and Safari */
+
+@-webkit-keyframes bounce {
+    0% {
+        -webkit-transform:translateY(-100%);
+    }
+    5% {
+        -webkit-transform:translateY(-100%);
+    }
+    15% {
+        -webkit-transform:translateY(0);
+        padding-bottom: 4px;
+    }
+    20% {
+        -webkit-transform:translateY(-80%);
+    }
+    25% {
+        -webkit-transform:translateY(0%);
+        padding-bottom: 4px;
+    }
+    30% {
+        -webkit-transform:translateY(-70%);
+    }
+    35% {
+        -webkit-transform:translateY(0%);
+        padding-bottom: 5px;
+    }
+    40% {
+        -webkit-transform:translateY(-60%);
+    }
+    45% {
+        -webkit-transform:translateY(0%);
+        padding-bottom: 5px;
+    }
+    50% {
+        -webkit-transform:translateY(-50%);
+    }
+    55% {
+        -webkit-transform:translateY(0%);
+        padding-bottom: 6px;
+    }
+    60% {
+        -webkit-transform:translateY(-30%);
+    }
+    65% {
+        -webkit-transform:translateY(0%);
+        padding-bottom: 6px;
+    }
+    70% {
+        -webkit-transform:translateY(-15%);
+    }
+    75% {
+        -webkit-transform:translateY(0);
+        padding-bottom: 8px;
+    }
+    80% {
+        -webkit-transform:translateY(-10%);
+    }
+    85% {
+        -webkit-transform:translateY(0);
+        padding-bottom: 8px;
+    }
+    90% {
+        -webkit-transform:translateY(-5%);
+    }
+    95% {
+        -webkit-transform:translateY(0);
+        padding-bottom: 10px;
+    }
+    100% {
+        -webkit-transform:translateY(0);
+        padding-bottom: 10px;
+    }
+}

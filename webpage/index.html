@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Contoso Bank</title>
+
+    <!--Linking CSS files to style the website-->
+    <link href="style.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        function openChat() {
+            var frame = document.getElementById("chat-frame");
+            frame.className = "";
+            var img = document.getElementById("chat-button");
+            img.className = "hide";
+        }
+
+        function closeChat() {
+            var frame = document.getElementById("chat-frame");
+            frame.className = "hide";
+            var img = document.getElementById("chat-button");
+            img.className = "";
+        }
+    </script>
+</head>
+<body>
+
+    <center>
+        <img src="res/images/logo_full_nowhitespace.png" id="logo" />
+        <h1 id="heading">Contoso Bank Limited</h1>
+    </center>
+
+    <div id="content">
+        <div id="left-content">
+            <p>
+                Welcome to Contoso Bank!
+            </p>
+            <p>
+                Click the icon on the bottom right to access the Contoso Bank Chat Bot.
+            </p>
+        </div>
+        <div id="right-content">
+
+        </div>
+    </div>
+
+    <div id="chat">
+     <div class="css3-bounce">
+        <img id="chat-button" src="res/images/logo_compact_friendly.png" onclick="openChat()" />
+     </div>
+        <div id="chat-frame" class="hide">
+            <iframe src='https://webchat.botframework.com/embed/ContosoBankLtd?s=bLVxqlrQ9nU.cwA.u1s.k62wwm_t8bXXSRQ7uh6hLbXBIlQswPNI2JjjGFr3Osw'></iframe>
+			<img src="res/images/minus.png" onclick="closeChat()" />
+        </div>
+    </div>
+
+</body>
+</html>
