@@ -1,8 +1,6 @@
 var builder = require('botbuilder');
-var food = require('../controller/FavouriteFoods');
 var bal = require('../controller/Balances');
 var transact = require('../controller/Transactions');
-var restaurant = require('./RestaurantCard');
 var stocks = require('./StockCard');
 var cognitive = require('../controller/CustomVision');
 
