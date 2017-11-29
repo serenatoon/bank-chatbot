@@ -21,9 +21,22 @@ server.post('/api/messages', connector.listen());
 
 // Receive messages from the user
 var bot = new builder.UniversalBot(connector, function (session) {
-
-    session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
+	// bot sends message on startup 
+	session.send("Hello! Welcome to Contoso Bank Chat Bot."); 
+    //session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
 });
 
 // This line will call the function in your LuisDialog.js file
 luis.startDialog(bot);
+
+// Send welcome when conversation with bot is started, by initiating the root dialog
+// source: https://github.com/Microsoft/BotBuilder-Samples/tree/master/Node/core-CreateNewConversation
+bot.on('conversationUpdate', function (message) {
+    if (message.membersAdded) {
+        message.membersAdded.forEach(function (identity) {
+            if (identity.id === message.address.bot.id) {
+                bot.beginDialog(message.address, '/');
+            }
+        });
+    }
+});
