@@ -12,25 +12,6 @@ exports.startDialog = function (bot) {
 
     bot.recognizer(recognizer);
 
-    bot.dialog('WantFood', function (session, args) {
-        if (!isAttachment(session)) {
-            // Pulls out the food entity from the session if it exists
-            var foodEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'food');
-
-            // Checks if the food entity was found
-            if (foodEntity) {
-                session.send('Looking for restaurants which sell %s...', foodEntity.entity);
-                restaurant.displayRestaurantCards(foodEntity.entity, "auckland", session);
-                // Insert logic here later
-            } else {
-                session.send("No food identified! Please try again");
-            }
-        }
-
-    }).triggerAction({
-        matches: 'WantFood'
-    });
-
     bot.dialog('deleteAccount', [
         function (session, args, next) {
             if (!isAttachment(session)) {
@@ -47,10 +28,10 @@ exports.startDialog = function (bot) {
 
             session.send("You want to delete one of your accounts..");
 
-            // Pulls out the food entity from the session if it exists
+            // Pulls out the account name entity from the session if it exists
             var account_name = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'account_name');
 
-            // Checks if the for entity was found
+            // Checks if account name entity was found
             if (account_name) {
                 session.send('Deleting \'%s\'...', account_name.entity);
                 bal.deleteAccount(session,session.conversationData['username'],account_name.entity); //<--- CALLL WE WANT
@@ -66,10 +47,10 @@ exports.startDialog = function (bot) {
     bot.dialog('getStocks', function (session, args) {
         if (!isAttachment(session)) {
 
-            // Pulls out the food entity from the session if it exists
+            // Pulls out the stock symbol entity from the session if it exists
             var stock_symbol = builder.EntityRecognizer.findEntity(args.intent.entities, 'stock');
 
-            // Checks if the for entity was found
+            // Checks if the stock symbol entity was found
             if (stock_symbol) {
                 session.send('Fetching stock price of %s...', stock_symbol.entity.toUpperCase());
                 // Insert logic here later
@@ -146,9 +127,9 @@ exports.startDialog = function (bot) {
                 if (results.response) {
                     session.conversationData["username"] = results.response;
                 }
-                // Pulls out the food entity from the session if it exists
+                // Pulls out the account name entity from the session if it exists
                 var account = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'account_name');
-                // Checks if the food entity was found
+                // Checks if the account name entity was found
                 if (account) {
                     session.send('Creating new \'%s\' account...', account.entity);
                     bal.sendAccount(session, session.conversationData["username"], account.entity); // <-- LINE WE WANT
@@ -184,7 +165,7 @@ exports.startDialog = function (bot) {
             console.log("amount: %s", amount);
             console.log("account: %s", account);
 
-            // Checks if the food entity was found
+            // Checks if the account entity was found
             if (account) {
                 session.send('Withdrawing %s from %s....', amount.entity, account.entity);
                 bal.sendTransaction(session, session.conversationData["username"], account.entity, null, Number(amount.entity), "withdraw"); // <-- LINE WE WANT
@@ -222,7 +203,7 @@ exports.startDialog = function (bot) {
             console.log("from_account: %s", from_account);
             console.log("to_account: %s", to_account);
 
-            // Checks if the food entity was found
+            // Checks if the from_account entity was found
             if (from_account) {
                 session.send('Transferring $%s from %s to %s...', amount.entity, from_account.entity, to_account.entity);
                 bal.sendTransaction(session, session.conversationData["username"], from_account.entity, to_account.entity, Number(amount.entity), "transfer"); // <-- LINE WE WANT

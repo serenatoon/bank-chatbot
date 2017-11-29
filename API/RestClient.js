@@ -1,5 +1,6 @@
 var request = require('request');
 
+// makes request to get balances
 exports.getBalances = function getData(url, session, username, callback){
 	//session.send("getting favourite food..."); 
     request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
@@ -11,6 +12,7 @@ exports.getBalances = function getData(url, session, username, callback){
     });
 };
 
+// posts new account data 
 function postAccount(url, username, account_name, account_number, session){
     var options = {
         url: url,
@@ -38,6 +40,9 @@ function postAccount(url, username, account_name, account_number, session){
       });
 };
 
+/*  intermediary function to calculating the new account number to be made 
+    fetches data from db since we need to know the current account numbers 
+    before calling the method to calculate the new account number */
 exports.getNewAccountNumber = function getNewAccountNumber(url, username, account_name, session) {
     request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
         if(err){
@@ -49,6 +54,11 @@ exports.getNewAccountNumber = function getNewAccountNumber(url, username, accoun
     });
 }
 
+/*  Function to calculate the account number of the new account to be made 
+    since we do not want duplicate account numbers, as in a real bank.
+    Iterates through the existing account numbers, calculating the max;
+    adds 1 to the max and passes this in as an argument to postAccount
+    which will finally create this new account */
 function calculateNewAccountNumber(body, url, username, account_name, session) {
     var max = 1;
     var response = JSON.parse(body);
@@ -60,6 +70,7 @@ function calculateNewAccountNumber(body, url, username, account_name, session) {
     console.log("max: %s", max);
     postAccount(url, username, account_name, max, session);
 }
+
 
 exports.deleteAccount = function deleteData(url,session, username ,account_name, id, callback){
     var options = {
@@ -83,6 +94,7 @@ exports.deleteAccount = function deleteData(url,session, username ,account_name,
 
 };
 
+
 exports.getTransaction = function getTransaction(url, username, from_account, to_account, amount, operation, session) {
     request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
         if(err){
@@ -94,6 +106,7 @@ exports.getTransaction = function getTransaction(url, username, from_account, to
     });
 }
 
+// record transaction 
 exports.postTransaction = function postTransaction(url, username, from_account, to_account, amount, session, operation){
     var options = {
         url: url,
@@ -124,6 +137,9 @@ exports.postTransaction = function postTransaction(url, username, from_account, 
 };
 
 
+
+/*  gets ID of the account in db
+    needed so that we know what account to add/deduct money to/from */
 function getID(body, url, username, from_account, to_account, amount, operation, session) {
     var response = JSON.parse(body);
     if (operation == "withdraw" || operation == "transfer") {
@@ -151,6 +167,7 @@ function getID(body, url, username, from_account, to_account, amount, operation,
     }
 }
 
+//  Once we have the account ID, we can now send a PATCH request to modify this balance
 function updateBalance(url, username, account_name, session, id, new_balance) {
     console.log(url+'/'+id);
     var options = {
