@@ -47,7 +47,7 @@ exports.deleteAccount = function deleteAccount(session,username,account){
                     session.send("%s account deleted!", account);
                 }
                 else {
-                    session.send("Can only delete empty accounts!");
+                    session.send("Can only delete empty accounts!  Please transfer the balance to another account before proceeding.");
                 }
             }
         }
