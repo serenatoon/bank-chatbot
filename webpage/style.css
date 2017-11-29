@@ -38,6 +38,10 @@ h1 {
   color: #888;
 }
 
+.answer1, .answer2, .answer3, .answer4{
+    display: none;
+}
+
 #logo {
     position: absolute;
     left: 25px;
@@ -47,9 +51,9 @@ h1 {
 }
 
 #left-content {
-    width: 100%;
+    width: 50%;
     height: 100%;
-    /*float: left;*/
+    float: left;
 }
 
 #right-content {
@@ -231,10 +235,10 @@ iframe {
     width: 300px;
     height: 4px;
     
-    -webkit-animation: bounce 1.2s infinite;
-    -moz-animation: bounce 800ms infinite;
-    -o-animation: bounce 800ms infinite;
-    animation: bounce 1.2s infinite;
+    -webkit-animation: bounce 2s infinite;
+    -moz-animation: bounce 1200ms infinite;
+    -o-animation: bounce 1200ms infinite;
+    animation: bounce 2s infinite;
 }
 
 /* Webkit, Chrome and Safari */

@@ -38,9 +38,42 @@
             <p>
                 Click the icon on the bottom right to access the Contoso Bank Chat Bot.
             </p>
+
+            <div class="new_member_box">
+            <p>
+                <!-- <a href="#" class="question1">Click here to see what the bot can do!</a -->
+            </p>
+            </div>
         </div>
+
+        <div class="clear" class="question"></div>
+
+         <div class="answer1">
+              <p>If you're new to Contoso Bank, you'll probably want to create a new bank account with us.  To do this, tell the bot to make a new account for you, specifying the name of the account.  For example:</p>
+             <blockquote>Make new Cheque account</blockquote>
+             <p>The bot will prompt you to enter a username.  Choose whatever you want!  This will be the username you use to interact with the bot the next time you return.</p>
+
+         </div>
+
         <div id="right-content">
 
+            <p>If you're new to Contoso Bank, you'll probably want to create a new bank account with us.  To do this, tell the bot to make a new account for you, specifying the name of the account.  For example:</p>
+             <blockquote><i>Make new Cheque account</i></blockquote>
+             <p>The bot will prompt you to enter a username.  Choose whatever you want!  This will be the username you use to interact with the bot the next time you return.</p>
+             <br>
+             <p>There are things you can do with the bot that don't require an account.  Such as, getting the share price of a particular stock, and identifying what banknote an image URL is.
+             <blockquote><i><p>MSFT share price</p>
+             <p>http://www.brightermoney.co.nz/content/5/images/500/back-combined.png</p></i></blockquote>
+             <br>
+             <p>If you're a returning customer, simply ask it to do what you want, and it will ask you for your username.  You can: transfer money, create a new account, delete an empty account, view transactions, view balances.</p>
+             <blockquote><i><p>Transfer $20 from savings to card</p>
+                            <p>Create new Card account</p>
+                            <p>Delete Cheque account</p>
+                            <p>Show transactions</p>
+                            <p>View balance</p></i></blockquote>
+            <div class="new_member_box_display" id="question">
+            
+            </div>
         </div>
     </div>
 
@@ -53,6 +86,17 @@
 			<img src="res/images/minus.png" onclick="closeChat()" />
         </div>
     </div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+<!--  change text when link is clicked 
+ adapted from https://stackoverflow.com/questions/16407315/changing-content-in-a-div-when-a-link-is-clicked -->
+<script> $('.question1').click(function(){
+        $('.new_member_box_display').html($('.answer1').innerHTML);
+        document.getElementsByClassName('')
+    });</script>
+
+
 
 </body>
 </html>
