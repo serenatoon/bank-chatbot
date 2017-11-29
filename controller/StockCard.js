@@ -23,23 +23,40 @@ function getDate() {
 }
 
 function displayStockCards(message, symbol,session){
-    //Parses JSON
+
     var response = JSON.parse(message);
     var time_series = 'Time Series (15min)';
-    //var time = '2017-11-28 16:00:00';
     var time = getDate() + ' 16:00:00';
     var close = '4. close';
-    //Adds first 5 Stock information (i.e calories, energy) onto list
+    var yesterday_data = response[time_series][time]; // get yesterday's data, containing opening closing high low etc 
 
-    console.log(response[time_series][time][close]);
+    var stock_data = [];
+    var open = '1. open';
+    var high = '2. high';
+    var low = '3. low';
+    var vol = '5. volume';
+    // push yesterday's data (opening, high, low, etc) into stock_data to be displayed on the card 
+    // opening 
+    var stock_detail = {};
+    stock_detail.title = 'Open:';
+    stock_detail.value = '$' + yesterday_data[open];
+    stock_data.push(stock_detail);
+    // high
+    var stock_detail = {};
+    stock_detail.title = 'High:';
+    stock_detail.value = '$' + yesterday_data[high];
+    stock_data.push(stock_detail);
+    // low
+    var stock_detail = {};
+    stock_detail.title = 'Low:';
+    stock_detail.value = '$' + yesterday_data[low];
+    stock_data.push(stock_detail);
+    // volume
+    var stock_detail = {};
+    stock_detail.title = 'Volume:';
+    stock_detail.value = yesterday_data[vol];
+    stock_data.push(stock_detail);
 
-    // var StockItems = [];
-    // for(var i = 0; i < 5; i++){
-    //     var StockItem = {};
-    //     StockItem.title = Stock[i].name;
-    //     StockItem.value = Stock[i].value + " " + Stock[i].unit;
-    //     StockItems.push(StockItem);
-    // }
 
     //Displays Stock adaptive cards in chat box 
     session.send(new builder.Message(session).addAttachment({
@@ -55,11 +72,12 @@ function displayStockCards(message, symbol,session){
                         {
                             "type": "TextBlock",
                             "text": symbol.toUpperCase(),
-                            "size": "large"
+                            "size": "extraLarge"
                         },
                         {
                             "type": "TextBlock",
-                            "text": '$' + response[time_series][time][close]
+                            "size": "large",
+                            "text": "$" + response[time_series][time][close] // yesterday's closing stock price 
                         }
                     ]
                 },
@@ -76,7 +94,7 @@ function displayStockCards(message, symbol,session){
                                     "items": [
                                         {
                                             "type": "FactSet",
-                                            "facts": " sddfsdf"
+                                            "facts": stock_data
                                         }
                                     ]
                                 }
