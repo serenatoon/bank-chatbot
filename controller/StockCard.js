@@ -36,26 +36,38 @@ function displayStockCards(message, symbol,session){
     var low = '3. low';
     var vol = '5. volume';
     // push yesterday's data (opening, high, low, etc) into stock_data to be displayed on the card 
-    // opening 
-    var stock_detail = {};
-    stock_detail.title = 'Open:';
-    stock_detail.value = '$' + yesterday_data[open];
-    stock_data.push(stock_detail);
-    // high
-    var stock_detail = {};
-    stock_detail.title = 'High:';
-    stock_detail.value = '$' + yesterday_data[high];
-    stock_data.push(stock_detail);
-    // low
-    var stock_detail = {};
-    stock_detail.title = 'Low:';
-    stock_detail.value = '$' + yesterday_data[low];
-    stock_data.push(stock_detail);
-    // volume
-    var stock_detail = {};
-    stock_detail.title = 'Volume:';
-    stock_detail.value = yesterday_data[vol];
-    stock_data.push(stock_detail);
+    // // opening 
+    // var stock_detail = {};
+    // stock_detail.title = 'Open:';
+    // stock_detail.value = '$' + yesterday_data[open];
+    // stock_data.push(stock_detail);
+    // // high
+    // var stock_detail = {};
+    // stock_detail.title = 'High:';
+    // stock_detail.value = '$' + yesterday_data[high];
+    // stock_data.push(stock_detail);
+    // // low
+    // var stock_detail = {};
+    // stock_detail.title = 'Low:';
+    // stock_detail.value = '$' + yesterday_data[low];
+    // stock_data.push(stock_detail);
+    // // volume
+    // var stock_detail = {};
+    // stock_detail.title = 'Volume:';
+    // stock_detail.value = yesterday_data[vol];
+    // stock_data.push(stock_detail);
+    console.log(Object.keys(response[time_series][time])[0]);
+    for (key in Object.keys(response[time_series][time])) {
+        var stock_detail = {};
+        stock_detail.title = Object.keys(response[time_series][time])[key];
+        if (stock_detail.title != '5. volume') {
+            stock_detail.value = '$' + yesterday_data[stock_detail.title];
+        }
+        else {
+            stock_detail.value = yesterday_data[stock_detail.title];
+        }
+        stock_data.push(stock_detail);
+    }
 
 
     //Displays Stock adaptive cards in chat box 
