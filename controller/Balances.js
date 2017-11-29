@@ -1,4 +1,5 @@
 var rest = require('../API/RestClient');
+var transact = require('../controller/Transactions');
 
 exports.displayBalances = function getBalances(session, username){
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
@@ -22,6 +23,7 @@ function handleBalancesResponse(message, session, username) {
 exports.sendTransaction = function postTransactions(session, username, from_account, to_account, amount, operation) {
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
     rest.getTransaction(url, username, from_account, to_account, amount, operation, session);
+    transact.recordTransaction(session, username, from_account, to_account, amount, operation);
 }
 
 exports.sendAccount = function postBalances(session, username, account_name){

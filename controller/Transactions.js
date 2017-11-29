@@ -16,39 +16,13 @@ function handleTransactionsResponse(message, session, username) {
             console.log(date_time);
 
             if (response[i].type === "transfer") {
-                session.send("You transferred $%s from account %s to account %s on %s", response[i].amount, response[i].from_account, response[i].to_account, date_time);
+                session.send("You transferred $%s from %s your account to your %s account on %s", response[i].amount, response[i].from_account.charAt(0).toUpperCase()+response[i].from_account.slice(1), response[i].to_account.charAt(0).toUpperCase()+response[i].to_account.slice(1), date_time);
             }
         }        
     }            
 }
 
-exports.sendAccount = function postTransactions(session, username, account_name){
+exports.recordTransaction = function postTransaction(session, username, from_account, to_account, amount, operation){
     var url = 'http://contosobankltd.azurewebsites.net/tables/transactions';
-    rest.getNewAccountNumber(url, username, account_name);
+    rest.postTransaction(url, username, from_account, to_account, amount, session, operation);
 };
-
-exports.deleteTransactions = function deleteTransactions(session,username,Transactions){
-    var url  = 'http://contosobankltd.azurewebsites.net/tables/transactions';
-
-
-    rest.getTransactions(url,session, username,function(message,session,username){
-     var   all_transactions = JSON.parse(message);
-
-        for(var i in all_transactions) {
-
-            if (all_transactions[i].Transactions === Transactions && all_transactions[i].username === username) {
-
-                console.log(all_transactions[i]);
-
-                rest.deleteTransactions(url,session,username,Transactions, all_transactions[i].id ,handleDeletedFoodResponse)
-
-            }
-        }
-
-
-    });
-};
-
-function handleDeletedFoodResponse(message, session, username, Transactions) {
-	
-}

@@ -94,6 +94,35 @@ exports.getTransaction = function getTransaction(url, username, from_account, to
     });
 }
 
+exports.postTransaction = function postTransaction(url, username, from_account, to_account, amount, session, operation){
+    var options = {
+        url: url,
+        method: 'POST',
+        headers: {
+            'ZUMO-API-VERSION': '2.0.0',
+            'Content-Type':'application/json'
+        },
+        json: {
+            "username" : username,
+            "from_account" : from_account,
+            "to_account" : to_account,
+            "amount" : Number(amount),
+            "timestamp" : Number((new Date).getTime()), // get current ms since epoch 
+            "type": operation
+        }
+      };
+      
+      request(options, function (error, response, body) {
+        if (!error) {
+            console.log(body);
+            session.send("Transaction recorded.");
+        }
+        else{
+            console.log(error);
+        }
+      });
+};
+
 
 function getID(body, url, username, from_account, to_account, amount, operation, session) {
     var response = JSON.parse(body);
