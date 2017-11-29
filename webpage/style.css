@@ -231,10 +231,10 @@ iframe {
     width: 300px;
     height: 4px;
     
-    -webkit-animation: bounce 1.2s infinite;
-    -moz-animation: bounce 800ms infinite;
-    -o-animation: bounce 800ms infinite;
-    animation: bounce 1.2s infinite;
+    -webkit-animation: bounce 2s infinite;
+    -moz-animation: bounce 1200ms infinite;
+    -o-animation: bounce 1200ms infinite;
+    animation: bounce 2s infinite;
 }
 
 /* Webkit, Chrome and Safari */
