@@ -1,11 +1,13 @@
 var rest = require('../API/RestClient');
 var transact = require('../controller/Transactions');
 
+// intermediary function to retrieve balances 
 exports.displayBalances = function getBalances(session, username){
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
     rest.getBalances(url, session, username, handleBalancesResponse)
 };
 
+// parses the response from server, outputs as a message from the bot 
 function handleBalancesResponse(message, session, username) {
     var balances_response = JSON.parse(message);
     session.send("%s, your balances are:", username);
@@ -20,21 +22,27 @@ function handleBalancesResponse(message, session, username) {
     }            
 }
 
+
+// when a transfer/transaction is made 
 exports.sendTransaction = function postTransactions(session, username, from_account, to_account, amount, operation) {
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
-    rest.getTransaction(url, username, from_account, to_account, amount, operation, session);
-    transact.recordTransaction(session, username, from_account, to_account, amount, operation);
+    rest.getTransaction(url, username, from_account, to_account, amount, operation, session); // update balances
+    transact.recordTransaction(session, username, from_account, to_account, amount, operation); // record transaction
 }
 
+
+// intermediary function of creating a new account 
 exports.sendAccount = function postBalances(session, username, account_name){
     var url = 'http://contosobankltd.azurewebsites.net/tables/balances';
     rest.getNewAccountNumber(url, username, account_name, session);
 };
 
+
+// intermediary function of deleting an account
 exports.deleteAccount = function deleteAccount(session,username,account){
     var url  = 'http://contosobankltd.azurewebsites.net/tables/balances';
 
-
+    // make sure the account is empty
     rest.getBalances(url,session, username,function(message,session,username){
     var response = JSON.parse(message);
 
