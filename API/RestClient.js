@@ -63,15 +63,15 @@ function calculateNewAccountNumber(body, url, username, account_name, session) {
     var max = 1;
     var response = JSON.parse(body);
     for (var i in response) {
-        if (Number(response[i].number) >= Number(max)) {
-            max = Number(response[i].number) + 1;
+        if (Number(response[i].number) >= Number(max)) { // if the same/greater existing number is found 
+            max = Number(response[i].number) + 1; // assign max to be this number, plus 1 
         }
     }
-    console.log("max: %s", max);
-    postAccount(url, username, account_name, max, session);
+    postAccount(url, username, account_name, max, session); // now we have the needed data to POST the new account
 }
 
 
+// deletes an existing account 
 exports.deleteAccount = function deleteData(url,session, username ,account_name, id, callback){
     var options = {
         url: url + "\\" + id,
@@ -95,6 +95,7 @@ exports.deleteAccount = function deleteData(url,session, username ,account_name,
 };
 
 
+// fetches transaction 
 exports.getTransaction = function getTransaction(url, username, from_account, to_account, amount, operation, session) {
     request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
         if(err){
@@ -193,17 +194,6 @@ function updateBalance(url, username, account_name, session, id, new_balance) {
       });
 }
 
-
-exports.getYelpData = function getData(url,bearer,session, callback){
-
-    request.get(url,{'auth': { 'bearer': bearer}} ,function(err,res,body){
-        if(err){
-            console.log(err);
-        }else {
-            callback(body,session);
-        }
-    });
-};
 
 exports.getStockData = function getData(url, session, symbol, callback){
 
